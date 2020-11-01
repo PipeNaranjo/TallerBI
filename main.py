@@ -66,6 +66,7 @@ if response.status_code == 200:
         tipo_artista.append(datos_artista['type'])
         uri_artista.append(datos_artista['uri'])
         followers.append(datos_artista['followers']['total'])
+        generos_tracks.append(datos_artista['genres'])
         now = datetime.now()
         fecha_carga.append(now.replace(tzinfo=timezone.utc).timestamp())
         origen.append(datos_artista['href'])
@@ -80,13 +81,12 @@ if response.status_code == 200:
             id_track.append(track['id'])
             uri_track.append(track['uri'])
             fecha_lanzamiento_track.append(track['album']['release_date'])
-            #generos_tracks.append(track['genre'])
             now = datetime.now()
             fecha_carga_track.append(now.replace(tzinfo=timezone.utc).timestamp())
             origen_track.append(track['href'])
 
 tabla_artistas = {'nombre': nombres_artistas,'Tipo':tipo_artista,'Uri':uri_artista,'popularidad':popularidad_artista,
-                      'seguidores':followers,'FechaCarga':fecha_carga,'Origen':origen}
+                      'seguidores':followers,'FechaCarga':fecha_carga,'Origen':origen, 'Generos':generos_tracks}
 tabla_tracks = {'ID':id_track,'nombre': nombres_tracks, 'Tipo': tipo_track, 'Uri': uri_track, 'popularidad': popularidad_track,
                     'artista':artistas_track,'FechaDeLanzamiento':fecha_lanzamiento_track,
                     'FechaCarga':fecha_carga_track, 'Origen':origen_track, 'NumeroTrack':track_number}
