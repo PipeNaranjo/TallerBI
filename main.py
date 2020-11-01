@@ -6,7 +6,6 @@ from datetime import datetime, timezone
 client_id = 'c46f250061634356854fa16bc47802df'
 client_secret = 'd48fde2af9724b748de5d36589b67e47'
 urlToken = 'https://accounts.spotify.com/api/token'
-body = {'grant_type': 'client_credentials', 'client_id': '0d41e4cb15704ab1ba5fab3d1db5c93a','client_secret': 'e43fe3a2d8d140f694e53e5f21ad8a83'}
 BASE_URL = 'https://api.spotify.com/v1/'
 response = requests.post(urlToken, {
         'grant_type': 'client_credentials',
@@ -66,7 +65,6 @@ if response.status_code == 200:
         tipo_artista.append(datos_artista['type'])
         uri_artista.append(datos_artista['uri'])
         followers.append(datos_artista['followers']['total'])
-        generos_tracks.append(datos_artista['genres'])
         now = datetime.now()
         fecha_carga.append(now.replace(tzinfo=timezone.utc).timestamp())
         origen.append(datos_artista['href'])
@@ -78,6 +76,7 @@ if response.status_code == 200:
             artistas_track.append(track['artists'][0]["name"])
             album_track.append(track['album']['name'])
             track_number.append(track['disc_number'])
+            generos_tracks.append(datos_artista['genres'])
             id_track.append(track['id'])
             uri_track.append(track['uri'])
             fecha_lanzamiento_track.append(track['album']['release_date'])
@@ -86,10 +85,10 @@ if response.status_code == 200:
             origen_track.append(track['href'])
 
 tabla_artistas = {'nombre': nombres_artistas,'Tipo':tipo_artista,'Uri':uri_artista,'popularidad':popularidad_artista,
-                      'seguidores':followers,'FechaCarga':fecha_carga,'Origen':origen, 'Generos':generos_tracks}
+                      'seguidores':followers,'FechaCarga':fecha_carga,'Origen':origen}
 tabla_tracks = {'ID':id_track,'nombre': nombres_tracks, 'Tipo': tipo_track, 'Uri': uri_track, 'popularidad': popularidad_track,
                     'artista':artistas_track,'FechaDeLanzamiento':fecha_lanzamiento_track,
-                    'FechaCarga':fecha_carga_track, 'Origen':origen_track, 'NumeroTrack':track_number}
+                    'FechaCarga':fecha_carga_track, 'Origen':origen_track, 'NumeroTrack':track_number, 'Generos':generos_tracks}
 
 artistas = pd.DataFrame(data=tabla_artistas)
 tracks = pd.DataFrame(data=tabla_tracks)
